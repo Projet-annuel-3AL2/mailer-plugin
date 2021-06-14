@@ -1,4 +1,4 @@
-package com.agirpourtous;
+package com.agirpourtous.mailer;
 
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;

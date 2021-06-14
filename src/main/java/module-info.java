@@ -1,5 +1,5 @@
-module com.agirpourtous {
+module com.agirpourtous.mailer {
     requires org.pf4j;
     requires slf4j.api;
-
+    requires com.agirpourtous;
 }
