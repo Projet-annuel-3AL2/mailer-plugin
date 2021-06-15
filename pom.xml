@@ -17,34 +17,72 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j</artifactId>
-            <version>3.6.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.agirpourtous</groupId>
             <artifactId>AgirPourTous</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pf4j</groupId>
+            <artifactId>pf4j</artifactId>
+            <version>3.6.0</version>
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <filtering>false</filtering>
-                <directory>src/main/java</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>${project.artifactId}-${project.version}-plugin</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <attach>false</attach>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Plugin-Class>com.agirpourtous.mailer.MailerPlugin</Plugin-Class>
+                            <Plugin-Id>mailer-plugin</Plugin-Id>
+                            <Plugin-Version>0.0.1</Plugin-Version>
+                            <Plugin-Description>Envoie de mail</Plugin-Description>
+                            <Plugin-Provider>AgirPourTous</Plugin-Provider>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessors>
+                        <annotationProcessor>org.pf4j.processor.ExtensionAnnotationProcessor</annotationProcessor>
+                    </annotationProcessors>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.pf4j</groupId>
+                            <artifactId>pf4j</artifactId>
+                            <version>3.6.0</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
         </plugins>
     </build>
