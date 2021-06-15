@@ -9,8 +9,8 @@ import com.agirpourtous.core.models.Project;
 import com.agirpourtous.core.models.Ticket;
 import com.agirpourtous.mailer.MailerPlugin;
 
-public class ProjectMenu extends Menu {
-    public ProjectMenu(CLILauncher launcher, Project project) {
+public class ProjectMailerMenu extends Menu {
+    public ProjectMailerMenu(CLILauncher launcher, Project project) {
         super(launcher, "Mailing menu for project");
         addAction(new Action("Envoyer le rapport pour un projet") {
             @Override

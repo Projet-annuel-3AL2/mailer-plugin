@@ -5,6 +5,7 @@ import com.agirpourtous.cli.menus.MainMenu;
 import com.agirpourtous.cli.menus.Menu;
 import com.agirpourtous.cli.menus.list.ProjectListSelectionMenu;
 import com.agirpourtous.core.models.Project;
+import com.agirpourtous.mailer.cli.menus.ProjectMailerMenu;
 import org.pf4j.Extension;
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;
@@ -39,8 +40,9 @@ public class MailerPlugin extends Plugin {
                 @Override
                 public void execute() {
                     Project project = (Project) new ProjectListSelectionMenu(launcher).startList();
-
-                    launcher.setActiveMenu(new MainMenu(launcher));
+                    if (project != null) {
+                        launcher.setActiveMenu(new ProjectMailerMenu(launcher, project));
+                    }
                 }
             });
             addAction(new Action("Retour au menu principal") {
