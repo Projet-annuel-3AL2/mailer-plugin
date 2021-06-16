@@ -19,24 +19,24 @@ public class MailerPlugin extends Plugin {
     }
     @Override
     public void start() {
-        logger.info("WelcomePlugin.start()");
+        logger.info("Starting mailer plugin");
     }
 
     @Override
     public void stop() {
-        logger.info("WelcomePlugin.stop()");
+        logger.info("Stopping mailer plugin");
     }
 
     @Override
     public void delete() {
-        logger.info("WelcomePlugin.delete()");
+        logger.info("Deleting mailer plugin");
     }
 
     @Extension
     public static class MailerMenu extends Menu {
         public MailerMenu() {
             super("Menu du plugin d'envoie de mail");
-            addAction(new Action("Envoyer le rapport pour un projet") {
+            addAction(new Action("Envoyer un rapport pour un projet") {
                 @Override
                 public void execute() {
                     Project project = (Project) new ProjectListSelectionMenu(launcher).startList();
