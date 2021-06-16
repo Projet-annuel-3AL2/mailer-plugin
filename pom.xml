@@ -20,7 +20,13 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -90,6 +96,36 @@
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>com.sun.mail</groupId>
+                                        <artifactId>javax.mail</artifactId>
+                                        <version>1.6.2</version>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                    </artifactItem>
+                                    <artifactItem>
+                                        <groupId>com.sun.activation</groupId>
+                                        <artifactId>javax.activation</artifactId>
+                                        <version>1.2.0</version>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
