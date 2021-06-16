@@ -30,7 +30,7 @@ public class ProjectMailerMenu extends Menu {
                 System.out.println(project.getName());
                 MailSender mailSender = MailSender.getInstance();
                 User user = (User) new UserListMenu(launcher).startList();
-                mailSender.sendEmail(launcher.getClient().getUser().getMail(), user.getMail(), "Details du projet - " + project.getName(), project.getName());
+                mailSender.sendEmail(user.getMail(), "Details du projet - " + project.getName(), project.getName());
                 launcher.setActiveMenu(new MainMenu(launcher));
             }
         });

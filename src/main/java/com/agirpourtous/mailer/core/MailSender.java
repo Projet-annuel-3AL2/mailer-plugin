@@ -2,10 +2,7 @@ package com.agirpourtous.mailer.core;
 
 import com.agirpourtous.mailer.MailerPlugin;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
@@ -39,12 +36,16 @@ public class MailSender {
         }
     }
 
-    public void sendEmail(String fromEmail, String toEmail, String subject, String body) {
+    public void sendEmail(String toEmail, String subject, String body) {
         try {
-            Session session = Session.getDefaultInstance(configSMTP, null);
+            Session session = Session.getDefaultInstance(configSMTP, new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(configSMTP.getProperty("mail.smtp.user"), configSMTP.getProperty("mail.smtp.password"));
+                }
+            });
             MimeMessage message = new MimeMessage(session);
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            message.setFrom(fromEmail);
+            message.setFrom(configSMTP.getProperty("mail.smtp.user"));
             message.setSubject(subject);
             message.setText(body);
             Transport.send(message);
