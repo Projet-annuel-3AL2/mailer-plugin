@@ -5,9 +5,12 @@ import com.agirpourtous.cli.menus.Action;
 import com.agirpourtous.cli.menus.MainMenu;
 import com.agirpourtous.cli.menus.Menu;
 import com.agirpourtous.cli.menus.list.ProjectTicketsListMenu;
+import com.agirpourtous.cli.menus.list.UserListMenu;
 import com.agirpourtous.core.models.Project;
 import com.agirpourtous.core.models.Ticket;
+import com.agirpourtous.core.models.User;
 import com.agirpourtous.mailer.MailerPlugin;
+import com.agirpourtous.mailer.core.MailSender;
 
 public class ProjectMailerMenu extends Menu {
     public ProjectMailerMenu(CLILauncher launcher, Project project) {
@@ -25,6 +28,9 @@ public class ProjectMailerMenu extends Menu {
             @Override
             public void execute() {
                 System.out.println(project.getName());
+                MailSender mailSender = MailSender.getInstance();
+                User user = (User) new UserListMenu(launcher).startList();
+                mailSender.sendEmail(launcher.getClient().getUser().getMail(), user.getMail(), "Details du projet - " + project.getName(), project.getName());
                 launcher.setActiveMenu(new MainMenu(launcher));
             }
         });
