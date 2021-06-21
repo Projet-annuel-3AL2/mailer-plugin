@@ -7,13 +7,12 @@ import com.agirpourtous.gui.plugin.GuiPluginController;
 import com.agirpourtous.mailer.MailerPlugin;
 import com.agirpourtous.mailer.core.MailSender;
 import com.agirpourtous.mailer.core.PdfParser;
-import com.itextpdf.text.DocumentException;
+import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 import org.pf4j.Extension;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,18 +44,20 @@ public class GUIMailerMenu extends GuiPluginController {
         dialog.setTitle("Envoyer un rapport par mail");
         dialog.setHeaderText("Choisissez le destinataire");
         Optional<User> result = dialog.showAndWait();
-        try {
-            if (result.isEmpty()) {
-                return;
-            }
-            sendMail(result.get());
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
+        if (result.isEmpty()) {
+            return;
         }
+        sendMail(result.get());
     }
 
-    private void sendMail(User user) throws DocumentException, IOException {
-        MailSender mailSender = MailSender.getInstance();
-        mailSender.sendEmail(user.getMail(), "Details du projet - " + project.getName(), new PdfParser().parseProjectPdf(project, getController().getClient()));
+    private void sendMail(User user) {
+        new Task<>() {
+            @Override
+            protected Object call() throws Exception {
+                MailSender mailSender = MailSender.getInstance();
+                mailSender.sendEmail(user.getMail(), "Details du projet - " + project.getName(), new PdfParser().parseProjectPdf(project, getController().getClient()));
+                return null;
+            }
+        };
     }
 }
