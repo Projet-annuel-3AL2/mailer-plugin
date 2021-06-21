@@ -35,9 +35,9 @@ public class ProjectMailerMenu extends Menu {
         addAction(new Action("Envoyer le rapport du projet " + project.getName()) {
             @Override
             public void execute() {
-                MailSender mailSender = MailSender.getInstance();
-                User user = (User) new UserListMenu(launcher).startList();
                 try {
+                    MailSender mailSender = MailSender.getInstance();
+                    User user = (User) new UserListMenu(launcher).startList();
                     PdfReader reader = new PdfReader(new FileInputStream(new ProjectPdfGenerator(launcher.getClient(), project).generatePdf()));
                     StringBuilder pdfContent = new StringBuilder();
                     PdfReaderContentParser parser = new PdfReaderContentParser(reader);
@@ -46,7 +46,6 @@ public class ProjectMailerMenu extends Menu {
                         strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
                         pdfContent.append(strategy.getResultantText());
                     }
-                    System.out.println(pdfContent);
                     mailSender.sendEmail(user.getMail(), "Details du projet - " + project.getName(), pdfContent.toString());
                 } catch (DocumentException | IOException e) {
                     e.printStackTrace();

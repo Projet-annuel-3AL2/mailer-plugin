@@ -42,12 +42,6 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itextpdf</artifactId>
-            <version>5.5.10</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
     <build>
         <resources>

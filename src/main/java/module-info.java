@@ -4,6 +4,7 @@ module com.agirpourtous.mailer {
     requires com.agirpourtous;
     requires java.mail;
     requires javafx.graphics;
+    requires javafx.controls;
     requires itextpdf;
 
     opens com.agirpourtous.mailer;
