@@ -51,13 +51,20 @@ public class GUIMailerMenu extends GuiPluginController {
     }
 
     private void sendMail(User user) {
-        new Task<>() {
+        Task<Object> task = new Task<>() {
             @Override
-            protected Object call() throws Exception {
-                MailSender mailSender = MailSender.getInstance();
-                mailSender.sendEmail(user.getMail(), "Details du projet - " + project.getName(), new PdfParser().parseProjectPdf(project, getController().getClient()));
+            protected Object call() {
+                try{
+                    MailSender mailSender = MailSender.getInstance();
+                    mailSender.sendEmail(user.getMail(), "Details du projet - " + project.getName(), new PdfParser().parseProjectPdf(project, getController().getClient()));
+                }catch (Exception e ){
+                    e.printStackTrace();
+                }
                 return null;
             }
         };
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 }
